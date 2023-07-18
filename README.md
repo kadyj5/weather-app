@@ -4,5 +4,6 @@
 * React framework
 * external API for getting weather data (see: https://open-meteo.com/en/docs)
 * Material Design
+* Typescript
 
 ## Description
