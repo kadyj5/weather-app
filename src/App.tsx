@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BrowserRouter as Router, Routes, Route, Link, useParams } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useParams, useNavigate } from 'react-router-dom';
+
 import {
     Typography,
     Container,
@@ -152,6 +153,7 @@ interface DetailsScreenProps {
 const DetailsScreen: React.FC<DetailsScreenProps> = ({ weatherData, selectedDayHourlyData }) => {
     const { index } = useParams<{ index: string }>();
     const selectedDayIndex = parseInt(index || '', 10);
+    const navigate = useNavigate(); // Get the navigate function from react-router-dom
 
     if (!weatherData || selectedDayIndex < 0 || selectedDayIndex >= weatherData.daily.time.length) {
         return <div>No data available.</div>;
@@ -160,8 +162,19 @@ const DetailsScreen: React.FC<DetailsScreenProps> = ({ weatherData, selectedDayH
     const selectedDay = weatherData.daily.time[selectedDayIndex];
     const hourlyData = selectedDayHourlyData || [];
 
+    const handleGoBack = () => {
+        navigate(-1); // Go back to the previous page
+    };
+
     return (
         <div>
+            {/* Add the "Back to Home" button */}
+            <Link to="/" style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '16px' }}>
+                <Button variant="contained" color="primary">
+                    Back to Home
+                </Button>
+            </Link>
+
             <Typography variant="h4" component="h2" mt={4}>
                 Hourly Data for {selectedDay}
             </Typography>
@@ -179,5 +192,4 @@ const DetailsScreen: React.FC<DetailsScreenProps> = ({ weatherData, selectedDayH
         </div>
     );
 };
-
 export default App;
